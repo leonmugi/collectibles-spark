@@ -212,6 +212,31 @@ The project demonstrates how microframeworks can simplify backend development fo
 
 ---
 
+## 📷 Evidencias – Sprint 1
+
+> **Notas**
+> - Coloca las capturas en `docs/screens/`.
+> - Usa nombres claros y sin espacios (ej. `get-users-empty.png`).
+> - Las rutas son relativas al repo, así que funcionarán en GitHub.
+
+| Figura | Acción / Descripción | Evidencia |
+|---:|---|---|
+| **Fig. 1** | **Servidor iniciado** – Spark escuchando en `:4567` | ![Spark iniciado](docs/screens/console-spark-start.png) |
+| **Fig. 2** | **GET /users (vacío)** en navegador | ![GET /users vacío](docs/screens/get-users-empty.png) |
+| **Fig. 3** | **POST /users/123** en Postman con body JSON | ![POST crear usuario](docs/screens/post-user-123.png) |
+| **Fig. 4** | **GET /users** (lista con usuario creado) | ![GET /users con datos](docs/screens/get-users-with-data.png) |
+| **Fig. 5** | **GET /users/123** (consulta por id) | ![GET /users/123](docs/screens/get-user-123.png) |
+| **Fig. 6** | **PUT /users/123** (actualización) | ![PUT /users/123](docs/screens/put-user-123.png) |
+| **Fig. 7** | **OPTIONS /users/123** (existencia) | ![OPTIONS /users/123](docs/screens/options-user-123.png) |
+| **Fig. 8** | **DELETE /users/123** (eliminación) | ![DELETE /users/123](docs/screens/delete-user-123.png) |
+
+### 🖼️ Referencias visuales adicionales
+- **Rutas en Spark (verbo + ruta + callback)** – fragmento de `App.java`  
+  ![Definición de rutas](docs/screens/code-routes-spark.png)
+
+- **`pom.xml` (Spark, Gson, Logback, Shade plugin)**  
+  ![pom.xml](docs/screens/pom-deps.png)
+
 ## 📽️ Final Deliverable Summary
 
 - ✅ Functional REST API for user management.  
