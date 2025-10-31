@@ -214,11 +214,6 @@ The project demonstrates how microframeworks can simplify backend development fo
 
 ## 📷 Evidencias – Sprint 1
 
-> **Notas**
-> - Coloca las capturas en `docs/screens/`.
-> - Usa nombres claros y sin espacios (ej. `get-users-empty.png`).
-> - Las rutas son relativas al repo, así que funcionarán en GitHub.
-
 | Figura | Acción / Descripción | Evidencia |
 |---:|---|---|
 | **Fig. 1** | **Servidor iniciado** – Spark escuchando en `:4567` | ![Spark iniciado](docs/screens/console-spark-start.png) |
@@ -268,22 +263,23 @@ This sprint transformed the backend API from Sprint 1 into a visually interactiv
 ## 🧱 Project Structure
 ```
 src/
- └── main/
-     ├── java/
-     │   └── com.nao.collectibles/
-     │       ├── App.java
-     │       ├── errors/
-     │       │   ├── ApiError.java
-     │       │   ├── BadRequestException.java
-     │       │   └── NotFoundException.java
-     │       └── store/
-     │           └── UserStore.java
-     └── resources/
-         ├── public/css/styles.css
-         └── templates/
-             ├── layout.mustache
-             ├── items.mustache
-             └── offer_form.mustache
+└── main/
+├── java/
+│ └── com/nao/collectibles/
+│ ├── App.java
+│ ├── errors/
+│ │ ├── ApiError.java
+│ │ ├── BadRequestException.java
+│ │ └── NotFoundException.java
+│ ├── model/
+│ └── store/
+└── resources/
+├── public/css/styles.css
+├── templates/
+│ ├── layout.mustache
+│ ├── items.mustache
+│ └── offer_form.mustache
+└── logback.xml
 ```
 
 ---
@@ -338,6 +334,30 @@ A POST form was implemented for submitting offers with validation:
 - **Demo:** `http://localhost:4567/items`
 
 This sprint achieved full UI integration, bridging backend logic with dynamic web rendering and user interaction.
+
+---
+## 🧪 Test Evidence
+
+| Figure | Action / Description | Evidence |
+|:---:|:---|:---|
+| **Fig. 1** | **Server running successfully on port 4567** | ![Server running](docs/screens/sprint2-server-start.png) |
+| **Fig. 2** | **View all collectible items** (`/items`) | ![Item list](docs/screens/sprint2-items-view.png) |
+| **Fig. 3** | **Open form to create a new item** (`/items/new`) | ![Form new item](docs/screens/sprint2-items-new.png) |
+| **Fig. 4** | **Open offer form for an existing item** (`/items/:id/offer`) | ![Offer form](docs/screens/sprint2-offer-form.png) |
+| **Fig. 5** | **Submit offer (POST)** showing validation and success feedback | ![Offer success](docs/screens/sprint2-offer-success.png) |
+| **Fig. 6** | **Exception handling test** (route not found / 404) | ![Error route not found](docs/screens/sprint2-error-404.png) |
+| **Fig. 7** | **Improved layout design and UI rendering** | ![UI layout](docs/screens/sprint2-ui-layout.png) |
+
+---
+
+## 🔧 Technologies Used
+
+- **Java 17**
+- **Spark Framework**
+- **Mustache Template Engine**
+- **Gson (Google JSON Library)**
+- **HTML5, CSS3 (Custom styling with animations)**
+- **Maven**
 
 ---
 
