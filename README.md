@@ -338,15 +338,13 @@ This sprint achieved full UI integration, bridging backend logic with dynamic we
 ---
 ## 🧪 Test Evidence
 
-| Figure | Action / Description | Evidence |
-|:---:|:---|:---|
+| Figure | Action / Description | Evidence                                              |
+|:---:|:---|:------------------------------------------------------|
 | **Fig. 1** | **Server running successfully on port 4567** | ![Server running](docs/screens/sprint2-server-start.png) |
-| **Fig. 2** | **View all collectible items** (`/items`) | ![Item list](docs/screens/sprint2-items-view.png) |
-| **Fig. 3** | **Open form to create a new item** (`/items/new`) | ![Form new item](docs/screens/sprint2-items-new.png) |
-| **Fig. 4** | **Open offer form for an existing item** (`/items/:id/offer`) | ![Offer form](docs/screens/sprint2-offer-form.png) |
-| **Fig. 5** | **Submit offer (POST)** showing validation and success feedback | ![Offer success](docs/screens/sprint2-offer-success.png) |
-| **Fig. 6** | **Exception handling test** (route not found / 404) | ![Error route not found](docs/screens/sprint2-error-404.png) |
-| **Fig. 7** | **Improved layout design and UI rendering** | ![UI layout](docs/screens/sprint2-ui-layout.png) |
+| **Fig. 2** | **View all collectible items** (`/items`) | ![Item list](docs/screens/sprint2-items-view.jpg)     |
+| **Fig. 3** | **Open form to create a new item** (`/items/new`) | ![Form new item](docs/screens/sprint2-items-new.jpg)  |
+| **Fig. 4** | **Open offer form for an existing item** (`/items/:id/offer`) | ![Offer form](docs/screens/sprint2-offer-form.jpg)       |
+| **Fig. 5** | **Submit offer (POST)** showing validation and success feedback | ![Offer success](docs/screens/sprint2-offer-success.jpg) |
 
 ---
 

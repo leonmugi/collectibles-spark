@@ -50,6 +50,13 @@ public class App {
             res.body(gson.toJson(new ApiError(ex.getMessage(), "NOT_FOUND")));
         });
 
+        get("/items/new", (req, res) -> {
+            var model = new HashMap<String, Object>();
+            model.put("title", "New Item");
+            model.put("content", MustacheRenderer.partial("new_item.mustache", Map.of()));
+            return new ModelAndView(model, "layout.mustache");
+        }, engine);
+
         // --- RUTAS REST DE USUARIOS (Sprint 1) ---
         get("/users", (req, res) -> gson.toJson(users.values()));
         get("/users/:id", (req, res) -> {
@@ -124,5 +131,30 @@ public class App {
 
         // --- HOME ---
         get("/", (req, res) -> "Spark app running at http://localhost:4567");
+
+        // GET: formulario para crear un item
+
+
+// POST: crear item desde el formulario
+        post("/items", (req, res) -> {
+            String name = req.queryParams("name");
+            String priceStr = req.queryParams("price");
+
+            if (name == null || name.isBlank() || priceStr == null) {
+                throw new BadRequestException("Name and price are required");
+            }
+
+            double price;
+            try { price = Double.parseDouble(priceStr); }
+            catch (NumberFormatException e) { throw new BadRequestException("Price must be numeric"); }
+            if (price <= 0) throw new BadRequestException("Price must be > 0");
+
+            String id = UUID.randomUUID().toString().substring(0, 8);
+            items.put(id, new HashMap<>(Map.of("id", id, "name", name, "price", price)));
+
+            res.redirect("/items");
+            return null;
+        });
+
     }
 }
