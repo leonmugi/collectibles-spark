@@ -247,7 +247,108 @@ The project demonstrates how microframeworks can simplify backend development fo
 
 ---
 
-## 🧑‍💻 Author
-**Leonel Campos**  
-Biomedical Engineer & Software Developer  
-[GitHub Repository Link](https://github.com/your-username/collectibles-spark)
+# 🧩 Fonckys Collectibles — Sprint 2 README
+
+## 📖 Project Overview
+Fonckys Collectibles is a Java Spark web application that simulates an online collectibles marketplace. During **Sprint 2**, the focus was on enhancing the application by introducing **views**, **templates**, and **exception handling** to provide a dynamic, user-friendly experience.
+
+This sprint transformed the backend API from Sprint 1 into a visually interactive platform with Mustache templates and a responsive UI.
+
+---
+
+## 🚀 Sprint 2 Objectives
+1. **Implement custom exception handling** for improved error responses.
+2. **Create dynamic views** using Mustache templates.
+3. **Develop a form** to manage item offers.
+4. **Integrate CSS styling** for a modern and responsive layout.
+5. **Test and deploy** the web interface on `localhost:4567`.
+
+---
+
+## 🧱 Project Structure
+```
+src/
+ └── main/
+     ├── java/
+     │   └── com.nao.collectibles/
+     │       ├── App.java
+     │       ├── errors/
+     │       │   ├── ApiError.java
+     │       │   ├── BadRequestException.java
+     │       │   └── NotFoundException.java
+     │       └── store/
+     │           └── UserStore.java
+     └── resources/
+         ├── public/css/styles.css
+         └── templates/
+             ├── layout.mustache
+             ├── items.mustache
+             └── offer_form.mustache
+```
+
+---
+
+## ⚙️ Core Features Implemented
+
+### 🧩 1. Exception Handling
+Custom exceptions were added to improve error messages:
+```java
+exception(BadRequestException.class, (ex, req, res) -> {
+    res.type("application/json");
+    res.status(400);
+    res.body(gson.toJson(new ApiError(ex.getMessage(), "BAD_REQUEST")));
+});
+```
+These ensure meaningful feedback when invalid inputs or missing routes occur.
+
+### 💻 2. Dynamic Mustache Templates
+- `layout.mustache`: main structure of the page (header, footer, navigation).
+- `items.mustache`: displays all collectibles dynamically.
+- `offer_form.mustache`: allows users to make offers for items.
+
+### 🎨 3. Responsive CSS Design
+Created a full custom UI with:
+- Animated header and icons.
+- Gradient backgrounds.
+- Floating cards for each collectible item.
+
+### 🧠 4. Web Form Handling
+A POST form was implemented for submitting offers with validation:
+```html
+<form method="post" action="/items/{{id}}/offers">
+    <input type="number" step="0.01" name="amount" required min="0.01">
+    <input type="text" name="bidder" required maxlength="60">
+    <button type="submit">Enviar Oferta</button>
+</form>
+```
+
+### 🌐 5. Routes Overview
+| Route | Method | Description |
+|-------|---------|-------------|
+| `/items` | GET | Displays all collectible items |
+| `/items/:id/offer` | GET | Loads offer form for specific item |
+| `/items/:id/offers` | POST | Submits new offer |
+
+---
+
+## 🧭 Sprint 2 Summary
+- **Status:** ✅ Completed
+- **Key Deliverables:** Mustache templates, CSS design, functional offer form.
+- **Repository:** [GitHub Repository Link](#)
+- **Demo:** `http://localhost:4567/items`
+
+This sprint achieved full UI integration, bridging backend logic with dynamic web rendering and user interaction.
+
+---
+
+## 🧩 Next Steps — Sprint 3 Preview
+1. Implement **filtering** of items by category or price.
+2. Add **real-time updates** via WebSockets.
+3. Finalize documentation and prepare demo video for submission.
+
+---
+
+## 👨‍💻 Authors
+**Eduardo Antonio Gutierrez Carreon**
+**Leonel Campos Valdés**
+
