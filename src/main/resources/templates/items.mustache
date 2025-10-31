@@ -1,0 +1,38 @@
+{{=<% %>=}}
+<%={{ }}=%>
+{{! se renderiza dentro de layout }}
+
+<section class="items-section">
+    <div class="section-header">
+        <h2 class="section-title">💎 Colección Disponible</h2>
+        <p class="section-subtitle">Encuentra los items más exclusivos del mercado</p>
+    </div>
+
+    <div class="items-grid">
+        {{#items}}
+            <div class="item-card">
+                <div class="item-badge">🔥 Hot</div>
+                <div class="item-icon">🎯</div>
+                <div class="item-details">
+                    <h3 class="item-name">{{name}}</h3>
+                    <div class="item-price">
+                        <span class="price-label">Precio:</span>
+                        <span class="price-value">${{price}}</span>
+                    </div>
+                </div>
+                <a href="/items/{{id}}/offer" class="offer-button">
+                    <span>💰 Hacer Oferta</span>
+                </a>
+            </div>
+        {{/items}}
+
+        {{^items}}
+            <div class="empty-state">
+                <div class="empty-icon">📦</div>
+                <h3 class="empty-title">No hay items disponibles</h3>
+                <p class="empty-text">¡Sé el primero en agregar un coleccionable!</p>
+                <a href="/items/new" class="empty-button">➕ Agregar Primer Item</a>
+            </div>
+        {{/items}}
+    </div>
+</section>
