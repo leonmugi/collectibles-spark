@@ -8,9 +8,24 @@
         <p class="section-subtitle">Encuentra los items más exclusivos del mercado</p>
     </div>
 
-    <div class="items-grid">
-        {{#items}}
-            <div class="item-card">
+    <div class="search-bar-container">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input-modern"
+                placeholder="Buscar coleccionables..."
+                autocomplete="off"
+            >
+            <span class="search-clear" id="clearBtn" style="display: none;">✕</span>
+        </div>
+        <div class="search-results-count" id="resultsCount"></div>
+    </div>
+
+    <div class="items-grid" id="itemsGrid">
+            {{#items}}
+                <div class="item-card" data-name="{{name}}" data-id="{{id}}">
                 <div class="item-badge">🔥 Hot</div>
                 <div class="item-icon">🎯</div>
                 <div class="item-details">
@@ -35,4 +50,226 @@
             </div>
         {{/items}}
     </div>
+
+    <div class="no-results" id="noResults" style="display: none;">
+        <div class="no-results-icon">🔍</div>
+        <h3 class="no-results-title">No se encontraron resultados</h3>
+        <p class="no-results-text">Intenta con otro término de búsqueda</p>
+    </div>
 </section>
+
+<style>
+.search-bar-container {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search-wrapper:focus-within {
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+}
+
+.search-icon {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+    opacity: 0.6;
+}
+
+.search-input-modern {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #2d3748;
+    background: transparent;
+    font-family: inherit;
+}
+
+.search-input-modern::placeholder {
+    color: #a0aec0;
+}
+
+.search-clear {
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #a0aec0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.search-clear:hover {
+    background: #f7fafc;
+    color: #4a5568;
+}
+
+.search-results-count {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #718096;
+    min-height: 1.5rem;
+}
+
+.item-card {
+    transition: all 0.3s ease;
+}
+
+.item-card.hidden {
+    display: none;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.no-results-title {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.no-results-text {
+    color: #718096;
+    font-size: 1rem;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.item-card {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Resaltar texto coincidente */
+.highlight {
+    background: linear-gradient(120deg, #ffd70020 0%, #ffd70080 100%);
+    padding: 0 0.2rem;
+    border-radius: 3px;
+}
+
+/* Le decimos al botón que tenga su propio "nivel" */
+.offer-button {
+    position: relative;
+    /* Lo ponemos en un nivel alto (ej. 10) */
+    z-index: 10;
+    cursor: pointer; /* Forzamos la manito */
+}
+
+/* También nos aseguramos de que el texto dentro sea clickeable */
+.offer-button span {
+    position: relative;
+    z-index: 11; /* Un nivel más arriba por si acaso */
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+    const itemsGrid = document.getElementById('itemsGrid');
+    const noResults = document.getElementById('noResults');
+    const resultsCount = document.getElementById('resultsCount');
+    const itemCards = document.querySelectorAll('.item-card');
+
+    let totalItems = itemCards.length;
+
+    function filterItems() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        // Mostrar/ocultar botón de limpiar
+        clearBtn.style.display = searchTerm ? 'block' : 'none';
+
+        itemCards.forEach(card => {
+            const itemName = card.getAttribute('data-name').toLowerCase();
+            const nameElement = card.querySelector('.item-name');
+            const originalName = card.getAttribute('data-name');
+
+            if (itemName.includes(searchTerm)) {
+                card.classList.remove('hidden');
+                visibleCount++;
+
+                // Resaltar coincidencias
+                if (searchTerm) {
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    nameElement.innerHTML = originalName.replace(regex, '<span class="highlight">$1</span>');
+                } else {
+                    nameElement.textContent = originalName;
+                }
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Actualizar contador de resultados
+        if (searchTerm) {
+            resultsCount.textContent = `${visibleCount} de ${totalItems} items encontrados`;
+        } else {
+            resultsCount.textContent = '';
+        }
+
+        // Mostrar mensaje si no hay resultados
+        if (visibleCount === 0 && totalItems > 0) {
+            noResults.style.display = 'block';
+            itemsGrid.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            itemsGrid.style.display = 'grid';
+        }
+    }
+
+    // Filtrar mientras escribe
+    searchInput.addEventListener('input', filterItems);
+
+    // Limpiar búsqueda
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        searchInput.focus();
+        filterItems();
+    });
+
+    // Atajo de teclado: ESC para limpiar
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            filterItems();
+        }
+    });
+
+    // Auto-focus en el input cuando se presiona "/" (como GitHub)
+    document.addEventListener('keydown', function(e) {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+        }
+    });
+});
+</script>

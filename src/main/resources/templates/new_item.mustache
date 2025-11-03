@@ -1,11 +1,500 @@
-<form method="post" action="/items" class="form-card">
-    <label>Nombre del item</label>
-    <input type="text" name="name" required maxlength="60">
+{{=<% %>=}}
+<%={{ }}=%>
 
-    <label>Precio</label>
-    <input type="number" name="price" step="0.01" min="0.01" required>
+<div class="create-item-container">
+    <div class="form-header">
+        <div class="form-icon">✨</div>
+        <h2 class="form-title">Crear Nuevo Coleccionable</h2>
+        <p class="form-subtitle">Agrega un item único a tu colección</p>
+    </div>
 
-    <button type="submit">Crear</button>
-</form>
+    <form method="post" action="/items" class="form-card-modern">
+        {{#error}}
+        <div class="error-alert">
+            <span class="error-icon">⚠️</span>
+            <span class="error-message">{{error}}</span>
+        </div>
+        {{/error}}
 
-{{#error}}<p style="color:red">{{error}}</p>{{/error}}
+        <!-- Nombre del Item -->
+        <div class="form-group">
+            <label class="form-label" for="itemName">
+                <span class="label-icon">🎯</span>
+                Nombre del Item
+                <span class="label-required">*</span>
+            </label>
+            <input 
+                type="text" 
+                id="itemName"
+                name="name" 
+                class="form-input"
+                placeholder="Ej: Gohan, Trunks, Vegeta..."
+                required 
+                maxlength="60"
+                autocomplete="off"
+            >
+            <div class="input-hint">
+                <span id="charCount">0</span>/60 caracteres
+            </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+            <label class="form-label" for="itemDescription">
+                <span class="label-icon">📝</span>
+                Descripción
+                <span class="label-optional">(opcional)</span>
+            </label>
+            <textarea 
+                id="itemDescription"
+                name="description" 
+                class="form-textarea"
+                placeholder="Describe las características, rareza o cualquier detalle especial del item..."
+                maxlength="500"
+                rows="4"
+            ></textarea>
+            <div class="input-hint">
+                <span id="descCharCount">0</span>/500 caracteres
+            </div>
+        </div>
+
+        <!-- Precio -->
+        <div class="form-group">
+            <label class="form-label" for="itemPrice">
+                <span class="label-icon">💰</span>
+                Precio
+                <span class="label-required">*</span>
+            </label>
+            <div class="price-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input 
+                    type="number" 
+                    id="itemPrice"
+                    name="price" 
+                    class="form-input price-input"
+                    placeholder="0.00"
+                    step="0.01" 
+                    min="0.01" 
+                    required
+                >
+            </div>
+            <div class="input-hint">
+                Precio en formato decimal (ej: 500.00)
+            </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="form-actions">
+            <a href="/items" class="btn-cancel">
+                <span>❌</span>
+                Cancelar
+            </a>
+            <button type="submit" class="btn-submit">
+                <span>✨</span>
+                Crear Item
+            </button>
+        </div>
+    </form>
+
+    <!-- Preview Card (opcional) -->
+    <div class="preview-section">
+        <h3 class="preview-title">Vista Previa</h3>
+        <div class="preview-card" id="previewCard">
+            <div class="preview-badge">🔥 Hot</div>
+            <div class="preview-icon">🎯</div>
+            <div class="preview-details">
+                <h3 class="preview-name" id="previewName">Nombre del Item</h3>
+                <p class="preview-desc" id="previewDesc">Descripción del item...</p>
+                <div class="preview-price">
+                    <span class="price-label">Precio:</span>
+                    <span class="price-value" id="previewPrice">$0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.create-item-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .create-item-container {
+        grid-template-columns: 1.5fr 1fr;
+    }
+}
+
+/* Header */
+.form-header {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.form-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.form-title {
+    font-size: 2rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.form-subtitle {
+    color: #718096;
+    font-size: 1rem;
+}
+
+/* Formulario Moderno */
+.form-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
+}
+
+/* Error Alert */
+.error-alert {
+    background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+    border-left: 4px solid #e53e3e;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.error-icon {
+    font-size: 1.25rem;
+}
+
+.error-message {
+    color: #c53030;
+    font-weight: 500;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.75rem;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.label-icon {
+    font-size: 1.1rem;
+}
+
+.label-required {
+    color: #e53e3e;
+    font-size: 0.85rem;
+}
+
+.label-optional {
+    color: #a0aec0;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+/* Inputs */
+.form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input::placeholder {
+    color: #cbd5e0;
+}
+
+/* Textarea */
+.form-textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2d3748;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Price Input */
+.price-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.25rem;
+    color: #48bb78;
+    font-weight: 700;
+}
+
+.price-input {
+    padding-left: 2.5rem;
+}
+
+/* Input Hints */
+.input-hint {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #a0aec0;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Botones */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-cancel,
+.btn-submit {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-cancel {
+    background: #f7fafc;
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-cancel:hover {
+    background: #edf2f7;
+    transform: translateY(-2px);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-submit:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* Preview Section */
+.preview-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
+    height: fit-content;
+}
+
+.preview-title {
+    font-size: 1.25rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.preview-card {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    border: 2px solid #e2e8f0;
+}
+
+.preview-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.preview-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.preview-name {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.preview-desc {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    min-height: 3rem;
+}
+
+.preview-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.price-label {
+    color: #718096;
+}
+
+.price-value {
+    color: #667eea;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .preview-section {
+        grid-column: 1 / -1;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('itemName');
+    const descInput = document.getElementById('itemDescription');
+    const priceInput = document.getElementById('itemPrice');
+    
+    const charCount = document.getElementById('charCount');
+    const descCharCount = document.getElementById('descCharCount');
+    
+    const previewName = document.getElementById('previewName');
+    const previewDesc = document.getElementById('previewDesc');
+    const previewPrice = document.getElementById('previewPrice');
+
+    // Contador de caracteres para nombre
+    nameInput.addEventListener('input', function() {
+        charCount.textContent = this.value.length;
+        
+        // Actualizar preview
+        previewName.textContent = this.value || 'Nombre del Item';
+    });
+
+    // Contador de caracteres para descripción
+    descInput.addEventListener('input', function() {
+        descCharCount.textContent = this.value.length;
+        
+        // Actualizar preview
+        previewDesc.textContent = this.value || 'Descripción del item...';
+    });
+
+    // Actualizar precio en preview
+    priceInput.addEventListener('input', function() {
+        const value = parseFloat(this.value) || 0;
+        previewPrice.textContent = '$' + value.toFixed(2);
+    });
+
+    // Validación de formulario
+    const form = document.querySelector('.form-card-modern');
+    form.addEventListener('submit', function(e) {
+        const name = nameInput.value.trim();
+        const price = parseFloat(priceInput.value);
+
+        if (!name) {
+            e.preventDefault();
+            alert('⚠️ Por favor ingresa un nombre para el item');
+            nameInput.focus();
+            return;
+        }
+
+        if (!price || price < 0.01) {
+            e.preventDefault();
+            alert('⚠️ Por favor ingresa un precio válido (mínimo $0.01)');
+            priceInput.focus();
+            return;
+        }
+    });
+
+    // Auto-focus en el primer input
+    nameInput.focus();
+});
+</script>

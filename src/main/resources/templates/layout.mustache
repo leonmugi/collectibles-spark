@@ -31,5 +31,86 @@
         <p>© 2025 Fonckys Collectibles | Todos los derechos reservados</p>
     </footer>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Definimos la URL del WebSocket.
+        // Usamos 'ws://' (WebSocket) en lugar de 'http://'
+        // La ruta debe ser la misma que definimos en App.java: "/price-updates"
+        const wsUrl = `ws://${window.location.host}/price-updates`;
+
+        let ws; // Variable para guardar la conexión
+
+        function connect() {
+            ws = new WebSocket(wsUrl);
+
+            // 2. ¿Qué hacer cuando el navegador se conecta?
+            ws.onopen = () => {
+                console.log('WebSocket conectado al servidor de precios.');
+            };
+
+            // 3. ¡LO MÁS IMPORTANTE! ¿Qué hacer cuando llega un mensaje?
+            ws.onmessage = (event) => {
+                console.log('Mensaje recibido:', event.data);
+
+                try {
+                    // 4. Convertimos el mensaje JSON (texto) a un objeto JavaScript
+                    const message = JSON.parse(event.data);
+
+                    // 5. Verificamos si es un mensaje de actualización de precio
+                    if (message.type === 'PRICE_UPDATE') {
+                        updatePriceOnPage(message.itemId, message.newPrice);
+                    }
+                } catch (e) {
+                    console.error('Error al parsear mensaje de WebSocket:', e);
+                }
+            };
+
+            // 6. ¿Qué hacer si la conexión se cierra? (Intenta reconectar)
+            ws.onclose = () => {
+                console.log('WebSocket desconectado. Intentando reconectar en 3 seg...');
+                // Intenta reconectar después de 3 segundos
+                setTimeout(connect, 3000);
+            };
+
+            // 7. ¿Qué hacer si hay un error?
+            ws.onerror = (error) => {
+                console.error('Error en WebSocket:', error);
+                ws.close(); // Cierra la conexión para forzar la reconexión
+            };
+        }
+
+        // 8. Función que actualiza el HTML
+        function updatePriceOnPage(itemId, newPrice) {
+            // Buscamos la tarjeta del item en la página de /items
+            // (Usamos un selector de atributo que busca el data-id)
+            const itemCard = document.querySelector(`.item-card[data-id="${itemId}"]`);
+
+            if (itemCard) {
+                // Si encontramos la tarjeta, buscamos el elemento del precio
+                const priceElement = itemCard.querySelector('.price-value');
+                if (priceElement) {
+                    console.log(`Actualizando precio para ${itemId}: $${newPrice}`);
+                    // Usamos toFixed(2) para asegurar 2 decimales, ej: $683.47
+                    priceElement.textContent = `$${newPrice.toFixed(2)}`;
+
+                    // (Opcional) Agregamos un efecto visual para que "brille"
+                    priceElement.style.transition = 'none';
+                    priceElement.style.color = '#4CAF50'; // Verde
+                    priceElement.style.transform = 'scale(1.1)';
+
+                    setTimeout(() => {
+                        priceElement.style.transition = 'all 0.3s ease';
+                        priceElement.style.color = ''; // Vuelve al color original
+                        priceElement.style.transform = 'scale(1)';
+                    }, 100); // El parpadeo dura 100ms
+                }
+            }
+        }
+
+        // 9. Iniciar la conexión cuando la página cargue
+        connect();
+    });
+</script>
 </body>
 </html>
