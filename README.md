@@ -602,15 +602,15 @@ User A submits offer → Backend validates → Price updated in store
 
 ## 🧪 Sprint 3 Test Evidence
 
-| Figure | Action / Description | Evidence |
-|:---:|:---|:---|
-| **Fig. 1** | **WebSocket connection established** - Browser console showing successful WS handshake | ![WebSocket connected](docs/screens/sprint3-websocket-connected.png) |
-| **Fig. 2** | **Client-side filtering in action** - Search bar filtering items with highlighted matches | ![JavaScript filter](docs/screens/sprint3-filter-demo.png) |
-| **Fig. 3** | **Real-time price update** - Two browser windows showing simultaneous price change | ![Real-time update](docs/screens/sprint3-realtime-update.png) |
-| **Fig. 4** | **Enhanced offer form** - New professional layout with current price display | ![Offer form v2](docs/screens/sprint3-offer-form.png) |
-| **Fig. 5** | **Offer validation failure** - Error message when offer is below current price | ![Validation error](docs/screens/sprint3-validation-error.png) |
-| **Fig. 6** | **Successful offer submission** - Price updated across all connected clients | ![Offer success](docs/screens/sprint3-offer-success.png) |
-| **Fig. 7** | **Multiple concurrent connections** - Server logs showing multiple WebSocket sessions | ![Multiple connections](docs/screens/sprint3-multiple-connections.png) |
+| Figure | Action / Description | Evidence                                                               |
+|:---:|:---|:-----------------------------------------------------------------------|
+| **Fig. 1** | **WebSocket connection established** - Browser console showing successful WS handshake | ![WebSocket connected](docs/screens/sprint3-websocket-connected.png)   |
+| **Fig. 2** | **Client-side filtering in action** - Search bar filtering items with highlighted matches | ![JavaScript filter](docs/screens/sprint3-filter-demo.jpg)             |
+| **Fig. 3** | **Real-time price update** - Two browser windows showing simultaneous price change | ![Real-time update](docs/screens/sprint3-realtime-update.png)          |
+| **Fig. 4** | **Enhanced offer form** - New professional layout with current price display | ![Offer form v2](docs/screens/sprint3-offer-form.jpg)                  |
+| **Fig. 5** | **Offer validation failure** - Error message when offer is below current price | ![Validation error](docs/screens/sprint3-validation-error.jpg)         |
+| **Fig. 6** | **Successful offer submission** - Price updated across all connected clients | ![Offer success](docs/screens/sprint3-offer-success.jpg)               |
+| **Fig. 7** | **Multiple concurrent connections** - Server logs showing multiple WebSocket sessions | ![Multiple connections](docs/screens/sprint3-multiple-connections.jpg) |
 
 ---
 
